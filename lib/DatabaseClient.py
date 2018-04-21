@@ -5,8 +5,8 @@ class DatabaseClient:
         #host1,port1,user1,passwd1,db1,charset1):
         self.host=kw.get('host','202.120.36.29')
         self.port=kw.get('port',3306)
-        self.user=kw.get('user')
-        self.passwd=kw.get('password')
+        self.user=kw.get('user','readonly')
+        self.passwd=kw.get('password','readonly')
         self.db=kw.get('database','mag-new-160205')
 
         conn = MySQLdb.connect(host=self.host, port=self.port, user=self.user, passwd=self.passwd, db=self.db,
