@@ -1,5 +1,0 @@
-def main()
-    d=Dataclient.Dataclient('202.120.36.29',3306, 'groupleader', 'onlyleaders', 'mag-new-160205',"utf8")
-    d.get_paper_affiliations_by_author_name('xueqing wang')
-    d.get_coauthors_by_paper_id('7664ED89')
-    d.get_title_venue_year_by_paper_id('7664ED89')
