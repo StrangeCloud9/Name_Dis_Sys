@@ -27,42 +27,7 @@ cursor = conn.cursor()
 f = open('./disambiguation_finished_authors', 'a')
 
 
-'''
-def get_paper_affiliations_by_author_name(author_name):
-    #select stuname as '姓名',classname as '班级' from student inner join c lass on student.stuid=class.stuid
-    #select stuname as '姓名',classname as '班级'
-    #from student,class
-    #where student.stuid=class.stuid
-    quest_paper_by_author_name = 'SELECT PaperID,AffiliationID,A.AuthorID FROM PaperAuthorAffiliations AS P INNER JOIN ' \
-                                 '(SELECT AuthorID FROM Authors WHERE AuthorName ="%s") AS A ' \
-                                 'ON P.AuthorID = A.AuthorID'
-    cursor.execute(quest_paper_by_author_name % author_name)
-    paper_affiliations = cursor.fetchall()
-    return paper_affiliations
 
-
-def get_coauthors_by_paper_id(paper_id):
-    quest_author_by_paper = 'SELECT AuthorID FROM PaperAuthorAffiliations WHERE PaperID = "%s"'
-    cursor.execute(quest_author_by_paper % paper_id)
-    author_ids = cursor.fetchall()
-    if len(author_ids) > 20:
-        return None
-
-    quest_author_by_paper = 'SELECT AuthorName FROM Authors INNER JOIN ' \
-                            '(SELECT AuthorID FROM PaperAuthorAffiliations WHERE PaperID = "%s") AS TB ' \
-                            'ON Authors.AuthorID = TB.AuthorID'
-    cursor.execute(quest_author_by_paper % paper_id)
-    authors = cursor.fetchall()
-    return authors
-
-
-def get_title_venue_year_by_paper_id(paper_id):
-    quest_info_by_paper = 'SELECT NormalizedPaperTitle, ConferenceSeriesIDMappedToVenueName, ' \
-                          'JournalIDMappedToVenueName, PaperPublishYear FROM Papers WHERE PaperID = "%s"'
-    cursor.execute(quest_info_by_paper % paper_id)
-    rs = cursor.fetchall()
-    return rs
-'''
 
 def compute_title_similarity(paper_A, paper_B):
     vector_A = paper_A.title_vector
@@ -152,7 +117,6 @@ def init_paper_edges_and_ngbrs(papers, inverted_indices):
 
     return paper_full_edges, paper_all_ngbrs, paper_weak_type_ngbrs, \
            cluster_merge_pairs, title_sim_matrix
-
 
 def merge_strong_connected_papers(clusters, paper_idx_2_cluster_id, cluster_merge_pairs):
     has_changed = True
@@ -364,7 +328,7 @@ def merge_scattered_papers(clusters, paper_idx_2_cluster_id, title_sim_matrix, p
     return clusters
 
 
-def clustering(author_name, COUNT, save_path):
+def clustering(author_name, save_path):
     if len(author_name.split()) < 2:
         return 0, None, None, 0, 0
     #print ('start...',author_name)
@@ -400,8 +364,6 @@ def clustering(author_name, COUNT, save_path):
     # generate paper similarity dict
     paper_similarity_dict, paper_final_edges \
         = generate_paper_similarity_dict(papers, paper_idx_2_cluster_id, paper_weak_type_ngbrs, cluster_edges)
-
-    # hierarchical clustering
     clusters = hierarchical_clustering(paper_similarity_dict, paper_final_edges, clusters, paper_idx_2_cluster_id)
 
     # merge scattered papers
@@ -413,8 +375,8 @@ def clustering(author_name, COUNT, save_path):
     return len(papers), clusters, author_id_set, (db_endtime - starttime).seconds / 60.0, (
     cl_endtime - db_endtime).seconds / 60.0
 
-def name_disambiguation_local(author_name,COUNT, save_path,logger):
-    paper_count, clusters, author_id_set, db_time, cl_time = clustering(author_name, COUNT,save_path)
+def name_disambiguation_local(author_name, save_path,logger):
+    paper_count, clusters, author_id_set, db_time, cl_time = clustering(author_name,save_path)
     
     cpickle.dump(clusters,open(os.path.join(save_path,"result_cluster_%s"%(author_name)),'wb'))
     #logger.info("saved in "+os.path.join(save_path,"result_cluster_%s"%(author_name)))

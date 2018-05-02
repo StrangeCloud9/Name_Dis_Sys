@@ -1,4 +1,12 @@
 import numpy as np
+import spacy
+
+nlp = spacy.load('en_core_web_md')
+
+
+stopwords = set()
+for line in open('data/stopwords_ace.txt'):
+    stopwords.add(line.replace('\n', '').replace('\r', ''))
 
 class Paper:
     def __init__(self, paper_id, title, year, venue_id, affiliation_id, coauthors, author_id):
@@ -10,7 +18,6 @@ class Paper:
         self.coauthors = coauthors
         self.author_id = author_id
 
-        '''
         title_nlp = nlp(title)
 
         title_vector_sum = np.zeros(title_nlp[0].vector.shape)
@@ -23,8 +30,7 @@ class Paper:
                 word_count += 1
         if word_count != 0:
             self.title_vector = title_vector_sum / word_count
-        '''
-
+        
 class Cluster:
     def __init__(self, paper, paper_idx, affiliation_id, year):
         # paper = papers[idx]
