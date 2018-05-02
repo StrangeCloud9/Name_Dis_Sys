@@ -37,7 +37,7 @@ def analyze_papers_and_init_clusters(author_name):
     venue_2_uni_id = dict()
 
     for i, paper_affiliation in enumerate(paper_affiliations):
-        print i, '/', len(paper_affiliations)
+        print (i, '/', len(paper_affiliations))
 
         paper_id = paper_affiliation[0]
         original_author_id = paper_affiliation[2]
