@@ -37,3 +37,12 @@
 * data：
 
   数据从数据库读取放到这里
+
+##5月1日更新
+
+现在预处理流程为：
+
+* 用DatabaseClient.get_aname2aid_from_db 将整个大表全部导入到文件file.
+* 用preprocess.get_name2aid_from_file读取本地文件中的大表，做成字典。
+
+目前整个预处理流程只需要几小时
