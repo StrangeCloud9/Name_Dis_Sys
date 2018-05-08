@@ -6,7 +6,10 @@ import numpy as np
 import os
 import _pickle as cpickle
 
-from preprocess import preprocess
+from lib.DatabaseClient import *
+from lib.DisData import *
+from lib.Logger import *
+#from preprocess import preprocess
 
 '''
 stopwords = set()

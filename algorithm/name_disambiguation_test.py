@@ -7,11 +7,11 @@ import pymysql as MySQLdb
 import numpy as np
 import datetime
 import math
-from algorithm.name_disambiguation_local import *
-from lib.DatabaseClient import *
-from lib.DisData import *
-from preprocess import *
-from lib.Logger import *
+#from algorithm.name_disambiguation_local import *
+#from lib.DatabaseClient import *
+#from lib.DisData import *
+#from preprocess import *
+#from lib.Logger import *
 
 conn = MySQLdb.connect(host='202.120.36.29', port=3306, user='groupleader', passwd='onlyleaders', db='mag-new-160205',
                        charset="utf8")

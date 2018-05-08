@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 import pymysql as MySQLdb
+import os
 class DatabaseClient:
     def __init__(self,**kw):
         #host1,port1,user1,passwd1,db1,charset1):
@@ -55,19 +56,19 @@ class DatabaseClient:
         #aname 2 aid
         if os.path.exists('/tmp/aname2aid.txt'):
             os.remove('/tmp/aname2aid.txt')
-        cursor.execute("SELECT AuthorID,AuthorName  \
+        self.cursor.execute("SELECT AuthorID,AuthorName  \
             INTO OUTFILE '/tmp/aname2aid.txt' FIELDS TERMINATED BY '$$$' OPTIONALLY ENCLOSED BY '' LINES TERMINATED BY '\n' FROM Authors where AuthorName is not null")
 
     def get_aid2pid_affid_from_db(self):
         if os.path.exists('/tmp/aid2pid_affid.txt'):
             os.remove('/tmp/aid2pid_affid.txt')
-        cursor.execute("SELECT AuthorID,AffiliationID,PaperID  \
+        self.cursor.execute("SELECT AuthorID,AffiliationID,PaperID  \
             INTO OUTFILE '/tmp/aid2pid_affid.txt' FIELDS TERMINATED BY '\t' OPTIONALLY ENCLOSED BY '' LINES TERMINATED BY '\n' FROM PaperAuthorAffiliations")
 
     def get_pid2ptitle_cid_jid_year(self):
         if os.path.exists('/tmp/pid2ptitle_cid_jid_year.txt'):
             os.remove('/tmp/pid2ptitle_cid_jid_year.txt')
-        cursor.execute("SELECT PaperID, NormalizedPaperTitle, ConferenceSeriesIDMappedToVenueName, ' \
+        self.cursor.execute("SELECT PaperID, NormalizedPaperTitle, ConferenceSeriesIDMappedToVenueName, ' \
                               'JournalIDMappedToVenueName, PaperPublishYear \
                         INTO OUTFILE '/tmp/pid2ptitle_cid_jid_year.txt' FIELDS TERMINATED BY '$$$' OPTIONALLY ENCLOSED BY '' LINES TERMINATED BY '\n' FROM Papers")  
 
