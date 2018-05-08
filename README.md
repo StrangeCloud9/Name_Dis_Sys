@@ -46,3 +46,4 @@
 * 用preprocess.get_name2aid_from_file读取本地文件中的大表，做成字典。
 
 目前整个预处理流程只需要几小时
+
