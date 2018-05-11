@@ -219,14 +219,20 @@ def get_pid2ptitle_cid_jid_year_from_file(aims,fileName = '/tmp/pid2ptitle_cid_j
     print('load pid2ptitle_cid_jid_year done')
     sys.stdout.flush()
     return pid2ptitle_cid_jid_year
-def batch_dic_extract(author_name,name2aid,aid2name,aid2pid_affid,pid2aid,pid2ptitle_cid_jid_year):
+def check_none(item):
+    if(item == '\\N' or item==  '                               '):
+        return None
+    else :
+        return item
+    
+def batch_dic_extract_t(author_name,name2aid,aid2name,aid2pid_affid,pid2aid,pid2ptitle_cid_jid_year):
     paper_affiliations = []
-
     aids = name2aid[author_name][:-1].split(" ")
     for aid in aids:
         pid_affid = aid2pid_affid[aid]
         for item in pid_affid.split('$$$')[:-1]:
-            paper_affiliations.append([ item.split(' ')[1],item.split(' ')[0],aid ])
+            
+            paper_affiliations.append([ check_none(item.split(' ')[1]),check_none(item.split(' ')[0]),aid ])
     
     authors_dic = {}# paper_id->authors name
     title_venue_year_dic = {} # paper_id ->title_venue_year
@@ -239,8 +245,9 @@ def batch_dic_extract(author_name,name2aid,aid2name,aid2pid_affid,pid2aid,pid2pt
         aids = pid2aid[paper_id].split(' ')[:-1]
         for aid in aids:
             authors_dic[paper_id].append(aid2name[aid])
-
-        title_venue_year_dic[paper_id] = [pid2ptitle_cid_jid_year[paper_id].split('$$$')]
+        
+        
+        title_venue_year_dic[paper_id] = [ list(map(check_none,pid2ptitle_cid_jid_year[paper_id].split('$$$')))]
 
     return paper_affiliations,authors_dic,title_venue_year_dic
 

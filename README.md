@@ -19,7 +19,7 @@ db.get_pid2ptitle_cid_jid_year()
 name2aid,aid2name = get_name2aid_from_file(aims = author_names) 
 # name2aid：name 到author_id字典，  aid2name: author_id到name的字典
 aid2pid_affid,pid2aid = get_aid2pid_affid_from_file(aims = aid2name)
-# aid2pid_affid： author id到paper id 和affiliatioin id， pid2aid： paper id 到author id
+# aid2pid_affid： author id到 affiliatioin id，paper id， pid2aid： paper id 到author id
 pid2ptitle_cid_jid_year = get_pid2ptitle_cid_jid_year_from_file(aims = pid2aid)
 #paper id 到title 会议 期刊 发表年 
 ```
