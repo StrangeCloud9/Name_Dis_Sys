@@ -9,7 +9,7 @@ import _pickle as cpickle
 from lib.DatabaseClient import *
 from lib.DisData import *
 from lib.Logger import *
-#from preprocess import preprocess
+from preprocess import preprocess
 
 '''
 stopwords = set()

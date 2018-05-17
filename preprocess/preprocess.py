@@ -5,6 +5,15 @@ from lib.DatabaseClient import *
 from lib.DisData import *
 
 import sys
+
+def addLowerUpper(names):
+    tmp = []
+    for name in names:
+        if(name.islower()):
+            tmp.append(name.title())
+        else:
+            tmp.append(name.lower())
+
 def add_in_inverted_indices(inverted_indices, paper_id, feature_uni_id):
     if feature_uni_id not in inverted_indices:
         inverted_indices[feature_uni_id] = list()
@@ -95,7 +104,7 @@ def analyze_papers_and_init_clusters(author_name):
             title = title_venue_year[0][0]
             year = title_venue_year[0][3]
 
-        paper_instance = Paper(paper_id, title, year, venue_id, affiliation_id, coauthors, original_author_id)
+        paper_instance = Paper(paper_id, title, year, venue_id, affiliation_id, coauthors, original_author_id, paper_idx)
         papers.append(paper_instance)
 
         # initially each paper is used as a cluster
@@ -225,7 +234,7 @@ def check_none(item):
     else :
         return item
     
-def batch_dic_extract_t(author_name,name2aid,aid2name,aid2pid_affid,pid2aid,pid2ptitle_cid_jid_year):
+def batch_dic_extract(author_name,name2aid,aid2name,aid2pid_affid,pid2aid,pid2ptitle_cid_jid_year):
     paper_affiliations = []
     aids = name2aid[author_name][:-1].split(" ")
     for aid in aids:
